@@ -1,8 +1,13 @@
 package com.rezgame.backend.logic;
 
-import com.rezgame.backend.board.*;
-import com.rezgame.backend.*;
-import java.util.*;
+import com.rezgame.backend.Color;
+import com.rezgame.backend.Location;
+import com.rezgame.backend.Move;
+import com.rezgame.backend.board.Board;
+import com.rezgame.backend.board.BoardInterface;
+
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Logger;
 
 /*

@@ -1,6 +1,6 @@
 package com.rezgame.backend.board.cells;
 
-import com.rezgame.backend.*;
+import com.rezgame.backend.Color;
 
 /*
  * Copyright (c) <2013>, Amanj Sherwany and Nosheen Zaza

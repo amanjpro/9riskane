@@ -2,6 +2,7 @@ package com.rezgame.backend.board;
 
 import com.rezgame.backend.Location;
 import com.rezgame.backend.Move;
+
 import java.util.List;
 import java.util.Map;
 

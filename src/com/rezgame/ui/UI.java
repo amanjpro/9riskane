@@ -2,7 +2,6 @@ package com.rezgame.ui;
 
 import com.rezgame.backend.Location;
 import com.rezgame.backend.Move;
-import com.rezgame.backend.board.Board;
 import com.rezgame.backend.board.BoardInterface;
 import com.rezgame.backend.player.Player;
 

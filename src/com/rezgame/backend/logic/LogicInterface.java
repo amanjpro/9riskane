@@ -5,9 +5,6 @@ import com.rezgame.backend.Location;
 import com.rezgame.backend.Move;
 import com.rezgame.backend.board.BoardInterface;
 
-import java.util.LinkedList;
-import java.util.List;
-
 /*
  * Copyright (c) <2013>, Amanj Sherwany and Nosheen Zaza
  * All rights reserved.

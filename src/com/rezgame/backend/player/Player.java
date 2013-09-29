@@ -3,7 +3,6 @@ package com.rezgame.backend.player;
 import com.rezgame.backend.Color;
 import com.rezgame.backend.Location;
 import com.rezgame.backend.Move;
-import com.rezgame.backend.board.BoardInterface;
 import com.rezgame.backend.logic.LogicInterface;
 
 /*
