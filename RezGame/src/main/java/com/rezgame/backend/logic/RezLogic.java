@@ -19,28 +19,25 @@ public class RezLogic {
     }
 
     public boolean canPutItem(Location loc) {
-        return board.isWithinBounds(loc) && initMode && board.isEmpty(loc);
+        return board.isWithinBounds(loc) && isInitMode() && board.isEmpty(loc);
     }
 
     public boolean isInitMode() {
-        return initMode;
+        return (numberOfPuts < 2 * ITEM_NUMBER);
     }
 
     public void put(Location loc) {
         if(!canPutItem(loc)) {
             String msg = "Player " + currentPlayer + " cannot put item in location " +
-                    loc + " when the mode is " + (initMode ? "":"not") + " initMode";
+                    loc + " when the mode is " + (isInitMode() ? "":"not") + " initMode";
             LOGGER.severe(msg);
             throw new RuntimeException(msg);
         }
 
         board.placeItem(loc, currentPlayer);
 
+        numberOfPuts++;
 
-        if(board.getNumberOfBlackCells() == (ITEM_NUMBER - blacksRemoved) &&
-                board.getNumberOfWhiteCells() == (ITEM_NUMBER - whitesRemoved)) {
-            initMode = false;
-        }
     }
 
 
@@ -49,7 +46,7 @@ public class RezLogic {
 
         if(isRightColor && !canRemove(loc)) {
             String msg = "Player " + currentPlayer + " cannot remove item in location " +
-                    loc + " when the mode is " + (initMode ? "":"not") + " initMode";
+                    loc + " when the mode is " + (isInitMode() ? "":"not") + " initMode";
             LOGGER.severe(msg);
             throw new RuntimeException(msg);
         }
@@ -145,13 +142,13 @@ public class RezLogic {
         boolean rightItem = (board.isWithinBounds(mv.getFrom()) && currentPlayer == Color.Black)?board.isBlack(mv.getFrom()) : board.isWhite(mv.getFrom());
         return board.isPossibleMove(mv) &&
                 board.isWithinBounds(mv.getFrom()) && board.isWithinBounds(mv.getTo())
-                    && !initMode && rightItem && board.isEmpty(mv.getTo());
+                    && !isInitMode() && rightItem && board.isEmpty(mv.getTo());
     }
 
     public void move(Move mv) {
         if(!canMove(mv)) {
             String msg = "Player " + currentPlayer + " cannot move from " + mv +
-                        " when the mode is " + (initMode ? "" : "not") + "initMode";
+                        " when the mode is " + (isInitMode() ? "" : "not") + "initMode";
             LOGGER.severe(msg);
             throw new RuntimeException(msg);
         }
@@ -181,7 +178,7 @@ public class RezLogic {
     }
 
     private final static Logger LOGGER = Logger.getLogger("GameLogicLog");
-    private boolean initMode = true;
+    private int numberOfPuts;
     private Color currentPlayer;
     private final int ITEM_NUMBER;
     private Board board = new Board();
