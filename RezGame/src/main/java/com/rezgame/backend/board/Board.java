@@ -37,7 +37,7 @@ import java.util.*;
  * Created by Amanj and Nosheen on 26/9/13.
  */
 
-public class Board {
+public class Board implements BoardInterface {
 //    private static final Board self = new Board();
 
     /*

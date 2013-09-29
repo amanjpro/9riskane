@@ -4,6 +4,7 @@ import com.rezgame.backend.Color;
 import com.rezgame.backend.Location;
 import com.rezgame.backend.Move;
 import com.rezgame.backend.board.Board;
+import com.rezgame.backend.board.BoardInterface;
 import com.rezgame.backend.logic.RezSessionController;
 import com.rezgame.backend.player.HumanPlayer;
 import com.rezgame.backend.player.Player;
@@ -64,7 +65,7 @@ public class ConsoleUI extends UI {
     }
 
     @Override
-    public void showBoard(Board board) {
+    public void showBoard(BoardInterface board) {
         System.out.println(board.prettyPrint());
     }
 

@@ -39,11 +39,8 @@ public class RezSessionController {
 
     public void start() {
         while(inGame) {
-            if(logic.getBoard().isAllSet()) {
-                System.exit(0);
-            }
             if(logic.isInitMode()) {
-                Location loc = getCurrentPlayer().getItem();
+                Location loc = getCurrentPlayer().getItem(logic.getBoard());
                 if(logic.canPutItem(loc)) {
                     logic.put(loc);
                     doRezCheck(loc);
@@ -52,7 +49,7 @@ public class RezSessionController {
                     ui.badMoveAlert("Player " + getCurrentPlayer() + " cannot put an item in location " + loc);
                 }
             } else {
-                Move mv = getCurrentPlayer().moveItem();
+                Move mv = getCurrentPlayer().moveItem(logic.getBoard());
                 if(logic.canMove(mv)) {
                     logic.move(mv);
                     doRezCheck(mv.getTo());
@@ -68,11 +65,11 @@ public class RezSessionController {
     private void doRezCheck(Location loc) {
         if(logic.isRez(logic.currentPlayer(), loc)) {
             ui.showBoard(logic.getBoard());
-            Location removedLoc = getCurrentPlayer().removeItem();
+            Location removedLoc = getCurrentPlayer().removeItem(logic.getBoard());
             while(! logic.canRemove(removedLoc)) {
                 ui.badMoveAlert("Player " + getCurrentPlayer() + " cannot remove an item in location " + removedLoc);
                 ui.showBoard(logic.getBoard());
-                removedLoc = getCurrentPlayer().removeItem();
+                removedLoc = getCurrentPlayer().removeItem(logic.getBoard());
             }
             logic.remove(removedLoc);
             doWinCheck();

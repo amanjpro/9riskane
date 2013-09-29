@@ -13,7 +13,7 @@ public class RezLogic {
 
 
 
-    public RezLogic(int items, Color starter) {
+    RezLogic(int items, Color starter) {
         ITEM_NUMBER = items;
         currentPlayer = starter;
     }
@@ -26,7 +26,7 @@ public class RezLogic {
         return (numberOfPuts < 2 * ITEM_NUMBER);
     }
 
-    public void put(Location loc) {
+    void put(Location loc) {
         if(!canPutItem(loc)) {
             String msg = "Player " + currentPlayer + " cannot put item in location " +
                     loc + " when the mode is " + (isInitMode() ? "":"not") + " initMode";
@@ -41,7 +41,7 @@ public class RezLogic {
     }
 
 
-    public void remove(Location loc) {
+    void remove(Location loc) {
         boolean isRightColor = currentPlayer == Color.White? board.isBlack(loc) : board.isWhite(loc);
 
         if(isRightColor && !canRemove(loc)) {
@@ -149,7 +149,7 @@ public class RezLogic {
                 !isInitMode() && rightItem && board.isEmpty(mv.getTo());
     }
 
-    public void move(Move mv) {
+    void move(Move mv) {
         if(!canMove(mv)) {
             String msg = "Player " + currentPlayer + " cannot move from " + mv +
                         " when the mode is " + (isInitMode() ? "" : "not") + "initMode";
@@ -161,7 +161,7 @@ public class RezLogic {
     }
 
 
-    public Board getBoard() {
+    public BoardInterface getBoard() {
         return board;
     }
 
@@ -176,7 +176,7 @@ public class RezLogic {
         return currentPlayer;
     }
 
-    public void changePlayer() {
+    void changePlayer() {
         if(currentPlayer == Color.Black) currentPlayer = Color.White;
         else currentPlayer = Color.Black;
     }

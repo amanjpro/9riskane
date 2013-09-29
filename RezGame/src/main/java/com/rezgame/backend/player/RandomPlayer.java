@@ -3,6 +3,7 @@ package com.rezgame.backend.player;
 import com.rezgame.backend.Color;
 import com.rezgame.backend.Location;
 import com.rezgame.backend.Move;
+import com.rezgame.backend.board.BoardInterface;
 
 import java.util.Random;
 
@@ -17,14 +18,14 @@ public class RandomPlayer extends Player {
     }
 
     @Override
-    public Location getItem() {
+    public Location getItem(BoardInterface board) {
         Location loc = nextRandomLocation();
         System.out.println("Random puts: " + nextRandomLocation());
         return loc;
     }
 
     @Override
-    public Move moveItem() {
+    public Move moveItem(BoardInterface board) {
         Move mv;
         Location loc = nextRandomLocation();
         int n1 = rand.nextInt();
@@ -42,7 +43,7 @@ public class RandomPlayer extends Player {
     }
 
     @Override
-    public Location removeItem() {
+    public Location removeItem(BoardInterface board) {
         Location loc = nextRandomLocation();
         System.out.println("Random removes: " + nextRandomLocation());
         return nextRandomLocation();
