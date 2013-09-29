@@ -90,11 +90,11 @@ public class ConsoleUI extends UI {
 
 
     public void init() {
-//        Player p1 = new HumanPlayer("Amanj", this, Color.White);
-//        Player p2 = new HumanPlayer("Nosheen", this, Color.Black);
+        Player p1 = new HumanPlayer("Amanj", this, Color.White);
+        Player p2 = new HumanPlayer("Nosheen", this, Color.Black);
 
-        Player p1 = new RandomPlayer("Amanj", Color.White);
-        Player p2 = new RandomPlayer("Nosheen", Color.Black);
+//        Player p1 = new RandomPlayer("Amanj", Color.White);
+//        Player p2 = new RandomPlayer("Nosheen", Color.Black);
 
         RezSessionController session = new RezSessionController(this, p1, p2);
         session.start();

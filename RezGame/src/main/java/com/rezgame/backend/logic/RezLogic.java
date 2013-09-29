@@ -63,10 +63,13 @@ public class RezLogic {
 
 
     public boolean isWinning() {
+        System.out.println("blacksRemoved " + blacksRemoved + "  whitesRemoved " + whitesRemoved);
+        System.out.println("currentPlayer " + currentPlayer);
+
         if(currentPlayer == Color.White) {
-            return blacksRemoved == ITEM_NUMBER - 2 && whitesRemoved > ITEM_NUMBER - 2;
+            return blacksRemoved == ITEM_NUMBER - 2 && ITEM_NUMBER - whitesRemoved >  2;
         } else {
-            return whitesRemoved == ITEM_NUMBER - 2 && blacksRemoved > ITEM_NUMBER - 2;
+            return whitesRemoved == ITEM_NUMBER - 2 && ITEM_NUMBER - blacksRemoved > 2;
         }
     }
 
@@ -83,7 +86,7 @@ public class RezLogic {
         boolean flag = true;
         if(locs.isEmpty())
             return false;
-        if(currentPlayer == Color.White) {
+        if(color == Color.White) {
             for(Location loc : locs) {
                 flag = flag && board.isWhite(loc);
             }
@@ -139,10 +142,11 @@ public class RezLogic {
     }
 
     public boolean canMove(Move mv) {
-        boolean rightItem = (board.isWithinBounds(mv.getFrom()) && currentPlayer == Color.Black)?board.isBlack(mv.getFrom()) : board.isWhite(mv.getFrom());
+        if(!(board.isWithinBounds(mv.getFrom()) && board.isWithinBounds(mv.getTo())))
+            return false;
+        boolean rightItem = (currentPlayer == Color.Black)? board.isBlack(mv.getFrom()) : board.isWhite(mv.getFrom());
         return board.isPossibleMove(mv) &&
-                board.isWithinBounds(mv.getFrom()) && board.isWithinBounds(mv.getTo())
-                    && !isInitMode() && rightItem && board.isEmpty(mv.getTo());
+                !isInitMode() && rightItem && board.isEmpty(mv.getTo());
     }
 
     public void move(Move mv) {

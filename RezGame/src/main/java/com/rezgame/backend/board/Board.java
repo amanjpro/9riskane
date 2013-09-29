@@ -153,8 +153,8 @@ public class Board {
         int dOrbit = Math.abs(mv.getFrom().getOrbit() - mv.getTo().getOrbit());
         int dLoc = Math.abs(mv.getFrom().getLoc() - mv.getTo().getLoc()) % 6;
         result = result && (dOrbit == 1 ^ dLoc == 1);
-        result = result && (mv.getFrom().getLoc() % 2 == 0 && dOrbit == 0);
-        System.out.println(result);
+        if(mv.getFrom().getLoc() % 2 == 0)
+            result = result && dOrbit == 0;
         return result;
     }
 
