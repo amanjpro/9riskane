@@ -40,6 +40,8 @@ import java.util.*;
 public class Board implements BoardInterface {
 //    private static final Board self = new Board();
 
+//    /*
+
     /*
         TODO: Do we need a singleton board or not?
      */
@@ -50,8 +52,6 @@ public class Board implements BoardInterface {
             }
         }
     }
-
-//    /*
 //     * TODO: Lets think about this
 //     */
 //    public Board initBoard() {

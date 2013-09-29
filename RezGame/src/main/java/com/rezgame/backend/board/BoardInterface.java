@@ -25,33 +25,9 @@ public interface BoardInterface {
     public Map<Location, List<Move>> getAllPossibleMovesForBlack();
 
 
-
     public int getNumberOfBlackCells();
 
     public int getNumberOfWhiteCells();
-
-
-    public boolean isPossibleMove(Move mv);
-
-    public boolean isEmpty(Location loc);
-
-
-
-    public boolean isBlack(Location loc);
-
-    public boolean isWhite(Location loc);
-
-    public boolean isWithinBounds(Location loc);
-
-
-    public boolean isCorner(Location loc);
-
-
-    public Location getClockWiseAdjacent(Location loc);
-
-    public Location getCounterClockWiseAdjacent(Location loc);
-
-    public List<Location> filterValid(List<Location> locs);
 
     public String prettyPrint();
 

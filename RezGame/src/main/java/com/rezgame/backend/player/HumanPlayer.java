@@ -3,7 +3,7 @@ package com.rezgame.backend.player;
 import com.rezgame.backend.Color;
 import com.rezgame.backend.Location;
 import com.rezgame.backend.Move;
-import com.rezgame.backend.board.BoardInterface;
+import com.rezgame.backend.logic.LogicInterface;
 import com.rezgame.ui.UI;
 
 /*
@@ -18,17 +18,17 @@ public class HumanPlayer extends Player {
     }
 
     @Override
-    public Location removeItem(BoardInterface board) {
+    public Location removeItem(LogicInterface logic) {
         return ui.removeItem(this);
     }
 
     @Override
-    public Location getItem(BoardInterface board) {
+    public Location getItem(LogicInterface logic) {
         return ui.getItem(this);
     }
 
     @Override
-    public Move moveItem(BoardInterface board) {
+    public Move moveItem(LogicInterface logic) {
         return ui.moveItem(this);
     }
 

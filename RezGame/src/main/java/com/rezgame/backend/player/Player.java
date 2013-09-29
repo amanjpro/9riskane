@@ -4,6 +4,7 @@ import com.rezgame.backend.Color;
 import com.rezgame.backend.Location;
 import com.rezgame.backend.Move;
 import com.rezgame.backend.board.BoardInterface;
+import com.rezgame.backend.logic.LogicInterface;
 
 /*
  * Copyright (c) <2013>, Amanj Sherwany and Nosheen Zaza
@@ -25,11 +26,11 @@ public abstract class Player {
      * we went that rout. Do you know a better way to solve this? Share it with us please.
      *
      */
-    public abstract Location getItem(BoardInterface board);
+    public abstract Location getItem(LogicInterface logic);
 
-    public abstract Move moveItem(BoardInterface board);
+    public abstract Move moveItem(LogicInterface logic);
 
-    public abstract Location removeItem(BoardInterface board);
+    public abstract Location removeItem(LogicInterface logic);
 
     protected Color color;
 }

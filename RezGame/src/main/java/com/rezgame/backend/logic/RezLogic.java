@@ -9,7 +9,7 @@ import java.util.logging.Logger;
  * Copyright (c) <2013>, Amanj Sherwany and Nosheen Zaza
  * All rights reserved.
  * */
-public class RezLogic {
+public class RezLogic implements LogicInterface {
 
 
 

@@ -3,7 +3,7 @@ package com.rezgame.backend.player;
 import com.rezgame.backend.Color;
 import com.rezgame.backend.Location;
 import com.rezgame.backend.Move;
-import com.rezgame.backend.board.BoardInterface;
+import com.rezgame.backend.logic.LogicInterface;
 
 import java.util.Random;
 
@@ -18,35 +18,50 @@ public class RandomPlayer extends Player {
     }
 
     @Override
-    public Location getItem(BoardInterface board) {
+    public Location getItem(LogicInterface logic) {
         Location loc = nextRandomLocation();
-        System.out.println("Random puts: " + nextRandomLocation());
-        return loc;
+        if(!logic.canPutItem(loc)) {
+            return getItem(logic);
+        } else {
+            System.out.println("Random puts: " + nextRandomLocation());
+            return loc;
+        }
     }
 
     @Override
-    public Move moveItem(BoardInterface board) {
+    public Move moveItem(LogicInterface logic) {
         Move mv;
         Location loc = nextRandomLocation();
         int n1 = rand.nextInt();
         int n2 = rand.nextInt();
-        if(n1 % 2 == 0 || n1 % 2 == 0)
+        if(n1 % 2 == 0 || n2 % 2 == 0)
             mv = new Move(loc, new Location(loc.getOrbit()-1, loc.getLoc()));
-        else if(n1 % 2 == 0 || n1 % 2 == 1)
+        else if(n1 % 2 == 0 || n2 % 2 == 1)
             mv = new Move(loc, new Location(loc.getOrbit()+1, loc.getLoc()));
-        else if(n1 % 2 == 1 || n1 % 2 == 0)
+        else if(n1 % 2 == 1 || n2 % 2 == 0)
             mv = new Move(loc, new Location(loc.getOrbit(), loc.getLoc()+1));
         else
             mv = new Move(loc, new Location(loc.getOrbit(), loc.getLoc()-1));
-        System.out.println("Random does: " + mv);
-        return mv;
+
+        if(!logic.canMove(mv)) {
+            return moveItem(logic);
+        } else {
+            System.out.println("Random does: " + mv);
+            return mv;
+        }
     }
 
     @Override
-    public Location removeItem(BoardInterface board) {
+    public Location removeItem(LogicInterface logic) {
         Location loc = nextRandomLocation();
-        System.out.println("Random removes: " + nextRandomLocation());
-        return nextRandomLocation();
+
+        if(!logic.canRemove(loc)){
+            return removeItem(logic);
+        }
+        else {
+            System.out.println("Random removes: " + nextRandomLocation());
+            return loc;
+        }
     }
 
     public String toString() {
