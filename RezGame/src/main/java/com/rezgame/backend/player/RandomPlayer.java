@@ -23,7 +23,7 @@ public class RandomPlayer extends Player {
         if(!logic.canPutItem(loc)) {
             return getItem(logic);
         } else {
-            System.out.println("Random puts: " + nextRandomLocation());
+            System.out.println("Random puts: " + loc);
             return loc;
         }
     }
@@ -59,7 +59,7 @@ public class RandomPlayer extends Player {
             return removeItem(logic);
         }
         else {
-            System.out.println("Random removes: " + nextRandomLocation());
+            System.out.println("Random removes: " + loc);
             return loc;
         }
     }
