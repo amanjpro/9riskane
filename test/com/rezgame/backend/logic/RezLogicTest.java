@@ -5,7 +5,7 @@
 package com.rezgame.backend.logic;
 
 import com.rezgame.backend.Color;
-import com.rezgame.backend.Location;
+import com.rezgame.backend.Placement;
 import com.rezgame.backend.Move;
 import com.rezgame.backend.board.BoardInterface;
 import org.junit.After;
@@ -46,7 +46,7 @@ public class RezLogicTest {
     @Test
     public void testCanPutItem() {
         System.out.println("canPutItem");
-        Location loc = null;
+        Placement loc = null;
         RezLogic instance = null;
         boolean expResult = false;
         boolean result = instance.canPutItem(loc);
@@ -75,7 +75,7 @@ public class RezLogicTest {
     @Test
     public void testPut() {
         System.out.println("put");
-        Location loc = null;
+        Placement loc = null;
         RezLogic instance = null;
         instance.put(loc);
         // TODO review the generated test code and remove the default call to fail.
@@ -88,7 +88,7 @@ public class RezLogicTest {
     @Test
     public void testRemove() {
         System.out.println("remove");
-        Location loc = null;
+        Placement loc = null;
         RezLogic instance = null;
         instance.remove(loc);
         // TODO review the generated test code and remove the default call to fail.
@@ -101,7 +101,7 @@ public class RezLogicTest {
     @Test
     public void testCanRemove() {
         System.out.println("canRemove");
-        Location loc = null;
+        Placement loc = null;
         RezLogic instance = null;
         boolean expResult = false;
         boolean result = instance.canRemove(loc);
@@ -131,7 +131,7 @@ public class RezLogicTest {
     public void testIsRez() {
         System.out.println("isRez");
         Color color = null;
-        Location loc = null;
+        Placement loc = null;
         RezLogic instance = null;
         boolean expResult = false;
         boolean result = instance.isRez(color, loc);

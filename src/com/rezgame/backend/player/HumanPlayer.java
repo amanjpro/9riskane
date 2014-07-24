@@ -1,9 +1,11 @@
 package com.rezgame.backend.player;
 
 import com.rezgame.backend.Color;
-import com.rezgame.backend.Location;
+import com.rezgame.backend.Placement;
 import com.rezgame.backend.Move;
+import com.rezgame.backend.logic.GameStateInterface;
 import com.rezgame.backend.logic.LogicInterface;
+import com.rezgame.ui.HumanPlayerInputUI;
 import com.rezgame.ui.UI;
 
 /*
@@ -11,31 +13,33 @@ import com.rezgame.ui.UI;
  * All rights reserved.
  * */
 public class HumanPlayer extends Player {
-    public HumanPlayer(String name, UI ui, Color color) {
+    private String name;
+    private HumanPlayerInputUI ui;
+    
+    public HumanPlayer(String name, HumanPlayerInputUI ui, Color color) {
         super(color);
         this.ui = ui;
         this.name = name;
     }
 
+
     @Override
-    public Location removeItem(LogicInterface logic) {
-        return ui.removeItem(this);
+    public Placement getNewPlacement(GameStateInterface state) {
+        return ui.getNewPlacement(state);
     }
 
     @Override
-    public Location getItem(LogicInterface logic) {
-        return ui.getItem(this);
+    public Move getMove(GameStateInterface state) {
+        return ui.getMove(state);
     }
-
+    
     @Override
-    public Move moveItem(LogicInterface logic) {
-        return ui.moveItem(this);
+    public Placement getRemoveItem(GameStateInterface state) {
+        return ui.getRemoveItem(state);
     }
 
     @Override
     public String toString() {
         return "Player " + name;
     }
-    private String name;
-    private UI ui;
 }

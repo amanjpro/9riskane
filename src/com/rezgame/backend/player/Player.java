@@ -1,15 +1,19 @@
-package com.rezgame.backend.player;
-
-import com.rezgame.backend.Color;
-import com.rezgame.backend.Location;
-import com.rezgame.backend.Move;
-import com.rezgame.backend.logic.LogicInterface;
-
 /*
  * Copyright (c) <2013>, Amanj Sherwany and Nosheen Zaza
  * All rights reserved.
- * */
+ */
+
+package com.rezgame.backend.player;
+
+import com.rezgame.backend.Color;
+import com.rezgame.backend.Placement;
+import com.rezgame.backend.Move;
+import com.rezgame.backend.logic.GameStateInterface;
+import com.rezgame.backend.logic.LogicInterface;
+
 public abstract class Player {
+    protected Color color;
+    
     public Player(Color color) {
         this.color = color;
     }
@@ -17,19 +21,20 @@ public abstract class Player {
     public Color getColor() {
         return color;
     }
-
+ 
     /**
-     * FIXME
-     * We don't like this design, that the getItem receives a board as part of the message,
-     * which should only be used by AI players (like KapraPlayer). But for the sake of generality
-     * we went that rout. Do you know a better way to solve this? Share it with us please.
-     *
+     * 
+     * @param state this is indeed needed for both human and ai players. It 
+     * might not seem intuitive that hte human player needs the state, but,
+     * for example, if we need to highlight cells with valid moves, the state is 
+     * needed, wether the player itself highlights them or delegates this task 
+     * to anotehr UI object. I like to think of the human player as as ui input
+     * player; then things make more sense.
+     * @return 
      */
-    public abstract Location getItem(LogicInterface logic);
+    public abstract Placement getNewPlacement(GameStateInterface state);
 
-    public abstract Move moveItem(LogicInterface logic);
+    public abstract Move getMove(GameStateInterface state);
 
-    public abstract Location removeItem(LogicInterface logic);
-
-    protected Color color;
+    public abstract Placement getRemoveItem(GameStateInterface state);
 }

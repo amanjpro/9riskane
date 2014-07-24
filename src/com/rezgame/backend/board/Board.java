@@ -1,13 +1,8 @@
 package com.rezgame.backend.board;
 
 import com.rezgame.backend.Color;
-import com.rezgame.backend.Location;
+import com.rezgame.backend.Placement;
 import com.rezgame.backend.Move;
-import com.rezgame.backend.board.cells.BlackCell;
-import com.rezgame.backend.board.cells.Cell;
-import com.rezgame.backend.board.cells.EmptyCell;
-import com.rezgame.backend.board.cells.WhiteCell;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,35 +36,39 @@ import java.util.logging.Logger;
  */
 
 public class Board implements BoardInterface {
-//    private static final Board self = new Board();
 
-//    /*
-
-    /*
-        TODO: Do we need a singleton board or not?
-     */
+    private enum CellState {BLACK, WHITE, EMPTY};
+    
+    private static final int ORBITS = 3;
+    private static final int ORBIT_ITEMS = 8;
+    private static final Logger LOGGER = Logger.getLogger("BoardLog");
+    private CellState[][] board = new CellState[ORBITS][ORBIT_ITEMS];
+    
     public Board() {
         for(int i = 0; i < ORBITS; i++) {
             for(int j = 0; j < ORBIT_ITEMS; j++) {
-                board[i][j] = EmptyCell.getCell();
+                board[i][j] = CellState.EMPTY;
             }
         }
     }
-//     * TODO: Lets think about this
-//     */
-//    public Board initBoard() {
-//        return self;
-//    }
 
 
-    public void placeItem(Location loc, Color color) {
-        Cell cell = (color == Color.Black)? BlackCell.getCell() : WhiteCell.getCell();
-
-        checkBounds(loc);
-
-        checkEmpty(loc);
-
-        setCellState(loc, cell);
+    private CellState colorToState(Color color) {
+        if(color.equals(Color.Black)) return CellState.BLACK;
+        else return CellState.WHITE;
+    }
+    
+    private Color stateToColor(CellState s) {
+        if(s.equals(CellState.BLACK)) return Color.Black;
+        else if(s.equals(CellState.WHITE)) return Color.White;
+        else throw new RuntimeException("Cannot convert empty state to color");
+    }
+    
+    public void setCell(Placement plc) {
+        CellState cell = colorToState(plc.getColor());
+        checkBounds(plc);
+    // FIXME    checkEmpty(plc.getOrbit(), plc.getLoc());
+        setCellState(plc.getOrbit(), plc.getLoc(), colorToState(plc.getColor()));
     }
 
 
@@ -80,30 +79,37 @@ public class Board implements BoardInterface {
             throw new RuntimeException(msg);
         }
 
-        setCellState(mv.getTo(), getCellState(mv.getFrom()));
-        setCellState(mv.getFrom(), EmptyCell.getCell());
+        setCellState(mv.getNewOrbit(), mv.getNewLocation(), colorToState(mv.getColor()));
+        setCellState(mv.getOldOrbit(), mv.getOldLocation(), CellState.EMPTY);
     }
 
-    public List<Location> getAllEmptyCells() {
-        return getAllSpecifiedCells(EmptyCell.getCell());
+    public List<Placement> getAllEmptyCells() {
+        return getAllSpecifiedCells(CellState.EMPTY);
     }
 
-    public List<Location> getAllBlackCells() {
-        return getAllSpecifiedCells(BlackCell.getCell());
+    public List<Placement> getAllBlackCells() {
+        return getAllSpecifiedCells(CellState.BLACK);
     }
 
-    public List<Location> getAllWhiteCells() {
-        return getAllSpecifiedCells(WhiteCell.getCell());
+    public List<Placement> getAllWhiteCells() {
+        return getAllSpecifiedCells(CellState.WHITE);
     }
 
-    public List<Move> getPossibleMoves(Location current) {
+    public List<Move> getPossibleMoves(int orbit, int location) {
         List<Move> neighbours = new LinkedList<Move>();
 
         // Any item can move by one step at a time
-        neighbours.add(new Move(current, new Location(current.getOrbit()-1, current.getLoc())));
-        neighbours.add(new Move(current, new Location(current.getOrbit()+1, current.getLoc())));
-        neighbours.add(new Move(current, new Location(current.getOrbit(), current.getLoc()-1)));
-        neighbours.add(new Move(current, new Location(current.getOrbit(), current.getLoc()+1)));
+        neighbours.add(new Move(orbit, location, orbit-1, location, 
+                       stateToColor(board[orbit][location])));
+        
+        neighbours.add(new Move(orbit, location, orbit+1, location, 
+                       stateToColor(board[orbit][location])));
+        
+        neighbours.add(new Move(orbit, location, orbit, location-1, 
+                       stateToColor(board[orbit][location])));
+        
+        neighbours.add(new Move(orbit, location, orbit, location+1, 
+                       stateToColor(board[orbit][location])));
 
         List<Move> buffer = new LinkedList<Move>();
         for(Move mv : neighbours) {
@@ -115,54 +121,50 @@ public class Board implements BoardInterface {
         return buffer;
     }
 
-    public Map<Location, List<Move>> getAllPossibleMovesForWhite() {
-        return getAllPossibleMovesFor(WhiteCell.getCell());
+    public Map<Placement, List<Move>> getAllPossibleMoves(CellState state) {
+        return getAllPossibleMovesFor(state);
     }
 
-
-    public Map<Location, List<Move>> getAllPossibleMovesForBlack() {
-        return getAllPossibleMovesFor(BlackCell.getCell());
-    }
-
-
-
-
-    public void removeItem(Location loc) {
-        checkBounds(loc);
-        if(isEmpty(loc)) {
-            String msg = "Location is empty, " + loc;
+    public void removeItem(int orbit, int loc) {
+        //TODO this is ewww, but just for the moment.
+        checkBounds(new Placement (orbit, loc, Color.Black));
+        if(isEmpty(orbit, loc)) {
+            String msg = "Location is empty: " + orbit + ", " + loc;
             LOGGER.severe(msg);
             throw new RuntimeException(msg);
         }
 
-        setCellState(loc, EmptyCell.getCell());
+        setCellState(orbit, loc, CellState.EMPTY);
     }
 
 
+    @Override
     public int getNumberOfBlackCells() {
         return getAllBlackCells().size();
     }
 
+    @Override
     public int getNumberOfWhiteCells() {
         return getAllWhiteCells().size();
     }
 
 
     public boolean isPossibleMove(Move mv) {
-        boolean result = isWithinBounds(mv.getTo()) &&
-                isWithinBounds(mv.getFrom()) &&
-                isEmpty(mv.getTo()) &&
-                !isEmpty(mv.getFrom());
-        int dOrbit = Math.abs(mv.getFrom().getOrbit() - mv.getTo().getOrbit());
-        int dLoc = Math.abs(mv.getFrom().getLoc() - mv.getTo().getLoc()) % 6;
+        boolean result = isWithinBounds(mv.getNewOrbit(), mv.getNewLocation()) &&
+                isWithinBounds(mv.getOldOrbit(), mv.getOldLocation()) &&
+                isEmpty(mv.getNewOrbit(), mv.getNewLocation()) &&
+                !isEmpty(mv.getOldOrbit(), mv.getOldLocation());
+        int dOrbit = Math.abs(mv.getOldOrbit() - mv.getNewOrbit());
+        int dLoc = Math.abs(mv.getOldLocation() - mv.getNewLocation()) % 6;
         result = result && (dOrbit == 1 ^ dLoc == 1);
-        if(mv.getFrom().getLoc() % 2 == 0)
+        if(mv.getOldLocation() % 2 == 0)
             result = result && dOrbit == 0;
         return result;
     }
 
-    public boolean isEmpty(Location loc) {
-        return board[loc.getOrbit()][loc.getLoc()].isEmpty();
+    
+    public boolean isEmpty(int orbit, int loc) {
+        return board[orbit][loc].equals(CellState.EMPTY);
     }
 
 
@@ -170,63 +172,58 @@ public class Board implements BoardInterface {
         boolean flag = true;
         for(int i = 0; i < ORBITS; i++) {
             for(int j = 0; j < ORBIT_ITEMS; j++) {
-               flag = flag && !board[i][j].isEmpty();
+               flag = flag && !board[i][j].equals(CellState.EMPTY);
             }
         }
         return flag;
     }
-    public boolean isBlack(Location loc) {
-        return board[loc.getOrbit()][loc.getLoc()].isBlack();
+    
+    //TODO these checks are probably not needed if I use a placement.
+    public boolean isBlack(int orbit, int loc) {
+        return board[orbit][loc].equals(CellState.BLACK);
     }
 
-    public boolean isWhite(Location loc) {
-        return board[loc.getOrbit()][loc.getLoc()].isWhite();
+    public boolean isWhite(int orbit, int loc) {
+        return board[orbit][loc].equals(CellState.WHITE);
     }
 
-    public boolean isWithinBounds(Location loc) {
-        return (loc.getOrbit() < ORBITS && loc.getOrbit() >= 0) && (loc.getLoc() < ORBIT_ITEMS && loc.getLoc() >= 0);
-    }
-
-
-    private Cell getCellState(Location loc) {
-        return board[loc.getOrbit()][loc.getLoc()];
-    }
-
-    private void setCellState(Location loc, Cell c) {
-        board[loc.getOrbit()][loc.getLoc()] = c;
-    }
-    private void checkEmpty(Location loc) {
-        if(!isEmpty(loc)) {
-            String msg = "Location is not empty, " + loc;
-            LOGGER.severe(msg);
-            throw new RuntimeException(msg);
-        }
+    public boolean isWithinBounds(int orbit, int loc) {
+        return (orbit < ORBITS && orbit >= 0 && loc < ORBIT_ITEMS && loc >= 0);
     }
 
 
-    public boolean isCorner(Location loc) {
+    private CellState getCellState(int orbit, int location) {
+        return board[orbit][location];
+    }
+
+    private void setCellState(int orbit, int location, CellState c) {
+        board[orbit][location] = c;
+    }
+
+
+    public boolean isCorner(Placement loc) {
         return (loc.getLoc() % 2 == 0);
     }
 
 
-    public Location getClockWiseAdjacent(Location loc) {
+    public Placement getClockWiseAdjacent(Placement loc) {
         int x = loc.getOrbit();
         int y = loc.getLoc();
-        Location l = new Location(x, (y + 1) % 8);
+        Placement l = new Placement(x, (y + 1) % 8, loc.getColor());
         return l;
     }
 
-    public Location getCounterClockWiseAdjacent(Location loc) {
+    public Placement getCounterClockWiseAdjacent(Placement loc) {
         int x = loc.getOrbit();
         int y = loc.getLoc();
-        Location l = new Location(x, (y == 0? 8 : y) - 1);
+        Placement l = new Placement(x, (y == 0? 8 : y) - 1, loc.getColor());
         return l;
     }
 
 
 
 
-    private void checkBounds(Location loc) {
+    private void checkBounds(Placement loc) {
         if(loc.getOrbit() >= ORBITS || loc.getOrbit() < 0) {
             String msg = "Illegal orbit value: " + loc.getOrbit();
             LOGGER.severe(msg);
@@ -241,34 +238,32 @@ public class Board implements BoardInterface {
     }
 
 
-    private List<Location> getAllSpecifiedCells(Cell c) {
-        List<Location> buffer = new LinkedList<Location>();
+    private List<Placement> getAllSpecifiedCells(CellState c) {
+        List<Placement> buffer = new LinkedList<Placement>();
         for(int i = 0; i < ORBITS; i++) {
             for(int j = 0; j < ORBIT_ITEMS; j++) {
-                if((board[i][j] instanceof BlackCell || board[i][j] instanceof WhiteCell) &&
-                        board[i][j].getColor() == c.getColor()) {
-                    buffer.add(new Location(i, j));
+                if(c.equals(board[i][j])) {
+                    buffer.add(new Placement(i, j, stateToColor(c)));
                 }
             }
         }
-
         return buffer;
     }
 
 
 
-    private Map<Location, List<Move>> getAllPossibleMovesFor(Cell c) {
-        if(c.isEmpty()) {
+    private Map<Placement, List<Move>> getAllPossibleMovesFor(CellState c) {
+        if(c.equals(CellState.EMPTY)) {
             String msg = "There is no move for Empty cells";
             LOGGER.severe(msg);
             throw new RuntimeException(msg);
         }
 
-        List<Location> items = getAllSpecifiedCells(c);
-        Map<Location, List<Move>> buffer = new HashMap<Location, List<Move>>();
+        List<Placement> items = getAllSpecifiedCells(c);
+        Map<Placement, List<Move>> buffer = new HashMap<Placement, List<Move>>();
 
-        for(Location item : items) {
-            List<Move> mvs = getPossibleMoves(item);
+        for(Placement item : items) {
+            List<Move> mvs = getPossibleMoves(item.getOrbit(), item.getLoc());
             if(!mvs.isEmpty()) {
                 buffer.put(item, mvs);
             }
@@ -277,10 +272,10 @@ public class Board implements BoardInterface {
         return buffer;
     }
 
-    public List<Location> filterValid(List<Location> locs) {
-        List<Location> valid = new LinkedList<Location>();
-        for(Location loc : locs) {
-            if(isWithinBounds(loc)) {
+    public List<Placement> filterValid(List<Placement> locs) {
+        List<Placement> valid = new LinkedList<Placement>();
+        for(Placement loc : locs) {
+            if(isWithinBounds(loc.getOrbit(), loc.getLoc())) {
                 valid.add(loc);
             }
         }
@@ -391,9 +386,9 @@ public class Board implements BoardInterface {
         return str.toString();
     }
 
-    private char cellToChar(Cell c) {
-        if(c.isEmpty()) return '0';
-        else if(c.isBlack()) return 'Y';
+    private char cellToChar(CellState c) {
+        if(c.equals(CellState.EMPTY)) return '0';
+        else if(c.equals(CellState.EMPTY)) return 'Y';
         else return 'X';
     }
     private String repeatChar(char ch, int times) {
@@ -403,11 +398,6 @@ public class Board implements BoardInterface {
         }
         return sb.toString();
     }
-
-    private static final int ORBITS = 3;
-    private static final int ORBIT_ITEMS = 8;
-    private static final Logger LOGGER = Logger.getLogger("BoardLog");
-    private Cell[][] board = new Cell[ORBITS][ORBIT_ITEMS];
 }
 
 

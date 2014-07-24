@@ -42,7 +42,7 @@ public class LocationTest {
     @Test
     public void testGetLoc() {
         System.out.println("getLoc");
-        Location instance = null;
+        Placement instance = null;
         int expResult = 0;
         int result = instance.getLoc();
         assertEquals(expResult, result);
@@ -56,7 +56,7 @@ public class LocationTest {
     @Test
     public void testGetOrbit() {
         System.out.println("getOrbit");
-        Location instance = null;
+        Placement instance = null;
         int expResult = 0;
         int result = instance.getOrbit();
         assertEquals(expResult, result);
@@ -71,7 +71,7 @@ public class LocationTest {
     public void testEquals() {
         System.out.println("equals");
         Object o = null;
-        Location instance = null;
+        Placement instance = null;
         boolean expResult = false;
         boolean result = instance.equals(o);
         assertEquals(expResult, result);
@@ -85,7 +85,7 @@ public class LocationTest {
     @Test
     public void testHashCode() {
         System.out.println("hashCode");
-        Location instance = null;
+        Placement instance = null;
         int expResult = 0;
         int result = instance.hashCode();
         assertEquals(expResult, result);
@@ -99,7 +99,7 @@ public class LocationTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Location instance = null;
+        Placement instance = null;
         String expResult = "";
         String result = instance.toString();
         assertEquals(expResult, result);

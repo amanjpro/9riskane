@@ -72,8 +72,8 @@ public class MoveTest {
     public void testGetFrom() {
         System.out.println("getFrom");
         Move instance = null;
-        Location expResult = null;
-        Location result = instance.getFrom();
+        Placement expResult = null;
+        Placement result = instance.getFrom();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -86,8 +86,8 @@ public class MoveTest {
     public void testGetTo() {
         System.out.println("getTo");
         Move instance = null;
-        Location expResult = null;
-        Location result = instance.getTo();
+        Placement expResult = null;
+        Placement result = instance.getTo();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

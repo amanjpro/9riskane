@@ -4,7 +4,7 @@
  */
 package com.rezgame.ui;
 
-import com.rezgame.backend.Location;
+import com.rezgame.backend.Placement;
 import com.rezgame.backend.Move;
 import com.rezgame.backend.board.BoardInterface;
 import com.rezgame.backend.player.Player;
@@ -48,8 +48,8 @@ public class ConsoleUITest {
         System.out.println("getItem");
         Player currentPlayer = null;
         ConsoleUI instance = new ConsoleUI();
-        Location expResult = null;
-        Location result = instance.getItem(currentPlayer);
+        Placement expResult = null;
+        Placement result = instance.getNewPlacement(currentPlayer);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -91,8 +91,8 @@ public class ConsoleUITest {
         System.out.println("removeItem");
         Player currentPlayer = null;
         ConsoleUI instance = new ConsoleUI();
-        Location expResult = null;
-        Location result = instance.removeItem(currentPlayer);
+        Placement expResult = null;
+        Placement result = instance.getRemoveItem(currentPlayer);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -112,14 +112,14 @@ public class ConsoleUITest {
     }
 
     /**
-     * Test of showBoard method, of class ConsoleUI.
+     * Test of showState method, of class ConsoleUI.
      */
     @Test
     public void testShowBoard() {
         System.out.println("showBoard");
         BoardInterface board = null;
         ConsoleUI instance = new ConsoleUI();
-        instance.showBoard(board);
+        instance.showState(board);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

@@ -1,7 +1,7 @@
 package com.rezgame.backend.player;
 
 import com.rezgame.backend.Color;
-import com.rezgame.backend.Location;
+import com.rezgame.backend.Placement;
 import com.rezgame.backend.Move;
 import com.rezgame.backend.logic.LogicInterface;
 
@@ -18,8 +18,8 @@ public class RandomPlayer extends Player {
     }
 
     @Override
-    public Location getItem(LogicInterface logic) {
-        Location loc = nextRandomLocation();
+    public Placement getItem(LogicInterface logic) {
+        Placement loc = nextRandomLocation();
         if(!logic.canPutItem(loc)) {
             return getItem(logic);
         } else {
@@ -31,17 +31,17 @@ public class RandomPlayer extends Player {
     @Override
     public Move moveItem(LogicInterface logic) {
         Move mv;
-        Location loc = nextRandomLocation();
+        Placement loc = nextRandomLocation();
         int n1 = rand.nextInt();
         int n2 = rand.nextInt();
         if(n1 % 2 == 0 || n2 % 2 == 0)
-            mv = new Move(loc, new Location(loc.getOrbit()-1, loc.getLoc()));
+            mv = new Move(loc, new Placement(loc.getOrbit()-1, loc.getLoc()));
         else if(n1 % 2 == 0 || n2 % 2 == 1)
-            mv = new Move(loc, new Location(loc.getOrbit()+1, loc.getLoc()));
+            mv = new Move(loc, new Placement(loc.getOrbit()+1, loc.getLoc()));
         else if(n1 % 2 == 1 || n2 % 2 == 0)
-            mv = new Move(loc, new Location(loc.getOrbit(), loc.getLoc()+1));
+            mv = new Move(loc, new Placement(loc.getOrbit(), loc.getLoc()+1));
         else
-            mv = new Move(loc, new Location(loc.getOrbit(), loc.getLoc()-1));
+            mv = new Move(loc, new Placement(loc.getOrbit(), loc.getLoc()-1));
 
         if(!logic.canMove(mv)) {
             return moveItem(logic);
@@ -52,8 +52,8 @@ public class RandomPlayer extends Player {
     }
 
     @Override
-    public Location removeItem(LogicInterface logic) {
-        Location loc = nextRandomLocation();
+    public Placement removeItem(LogicInterface logic) {
+        Placement loc = nextRandomLocation();
 
         if(!logic.canRemove(loc)){
             return removeItem(logic);
@@ -68,8 +68,8 @@ public class RandomPlayer extends Player {
         return "Player " + name;
     }
 
-    private Location nextRandomLocation() {
-        return new Location(rand.nextInt(3), rand.nextInt(8));
+    private Placement nextRandomLocation() {
+        return new Placement(rand.nextInt(3), rand.nextInt(8));
     }
 
 

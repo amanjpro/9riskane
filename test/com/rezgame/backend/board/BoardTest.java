@@ -5,7 +5,7 @@
 package com.rezgame.backend.board;
 
 import com.rezgame.backend.Color;
-import com.rezgame.backend.Location;
+import com.rezgame.backend.Placement;
 import com.rezgame.backend.Move;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +47,7 @@ public class BoardTest {
     @Test
     public void testPlaceItem() {
         System.out.println("placeItem");
-        Location loc = null;
+        Placement loc = null;
         Color color = null;
         Board instance = new Board();
         instance.placeItem(loc, color);
@@ -116,7 +116,7 @@ public class BoardTest {
     @Test
     public void testGetPossibleMoves() {
         System.out.println("getPossibleMoves");
-        Location current = null;
+        Placement current = null;
         Board instance = new Board();
         List expResult = null;
         List result = instance.getPossibleMoves(current);
@@ -159,7 +159,7 @@ public class BoardTest {
     @Test
     public void testRemoveItem() {
         System.out.println("removeItem");
-        Location loc = null;
+        Placement loc = null;
         Board instance = new Board();
         instance.removeItem(loc);
         // TODO review the generated test code and remove the default call to fail.
@@ -215,7 +215,7 @@ public class BoardTest {
     @Test
     public void testIsEmpty() {
         System.out.println("isEmpty");
-        Location loc = null;
+        Placement loc = null;
         Board instance = new Board();
         boolean expResult = false;
         boolean result = instance.isEmpty(loc);
@@ -244,7 +244,7 @@ public class BoardTest {
     @Test
     public void testIsBlack() {
         System.out.println("isBlack");
-        Location loc = null;
+        Placement loc = null;
         Board instance = new Board();
         boolean expResult = false;
         boolean result = instance.isBlack(loc);
@@ -259,7 +259,7 @@ public class BoardTest {
     @Test
     public void testIsWhite() {
         System.out.println("isWhite");
-        Location loc = null;
+        Placement loc = null;
         Board instance = new Board();
         boolean expResult = false;
         boolean result = instance.isWhite(loc);
@@ -274,7 +274,7 @@ public class BoardTest {
     @Test
     public void testIsWithinBounds() {
         System.out.println("isWithinBounds");
-        Location loc = null;
+        Placement loc = null;
         Board instance = new Board();
         boolean expResult = false;
         boolean result = instance.isWithinBounds(loc);
@@ -289,7 +289,7 @@ public class BoardTest {
     @Test
     public void testIsCorner() {
         System.out.println("isCorner");
-        Location loc = null;
+        Placement loc = null;
         Board instance = new Board();
         boolean expResult = false;
         boolean result = instance.isCorner(loc);
@@ -304,10 +304,10 @@ public class BoardTest {
     @Test
     public void testGetClockWiseAdjacent() {
         System.out.println("getClockWiseAdjacent");
-        Location loc = null;
+        Placement loc = null;
         Board instance = new Board();
-        Location expResult = null;
-        Location result = instance.getClockWiseAdjacent(loc);
+        Placement expResult = null;
+        Placement result = instance.getClockWiseAdjacent(loc);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -319,10 +319,10 @@ public class BoardTest {
     @Test
     public void testGetCounterClockWiseAdjacent() {
         System.out.println("getCounterClockWiseAdjacent");
-        Location loc = null;
+        Placement loc = null;
         Board instance = new Board();
-        Location expResult = null;
-        Location result = instance.getCounterClockWiseAdjacent(loc);
+        Placement expResult = null;
+        Placement result = instance.getCounterClockWiseAdjacent(loc);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -334,7 +334,7 @@ public class BoardTest {
     @Test
     public void testFilterValid() {
         System.out.println("filterValid");
-        List<Location> locs = null;
+        List<Placement> locs = null;
         Board instance = new Board();
         List expResult = null;
         List result = instance.filterValid(locs);

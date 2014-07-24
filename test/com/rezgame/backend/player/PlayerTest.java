@@ -5,7 +5,7 @@
 package com.rezgame.backend.player;
 
 import com.rezgame.backend.Color;
-import com.rezgame.backend.Location;
+import com.rezgame.backend.Placement;
 import com.rezgame.backend.Move;
 import com.rezgame.backend.logic.LogicInterface;
 import org.junit.After;
@@ -62,8 +62,8 @@ public class PlayerTest {
         System.out.println("getItem");
         LogicInterface logic = null;
         Player instance = null;
-        Location expResult = null;
-        Location result = instance.getItem(logic);
+        Placement expResult = null;
+        Placement result = instance.getItem(logic);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -92,8 +92,8 @@ public class PlayerTest {
         System.out.println("removeItem");
         LogicInterface logic = null;
         Player instance = null;
-        Location expResult = null;
-        Location result = instance.removeItem(logic);
+        Placement expResult = null;
+        Placement result = instance.removeItem(logic);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -105,7 +105,7 @@ public class PlayerTest {
             super(null);
         }
 
-        public Location getItem(LogicInterface logic) {
+        public Placement getItem(LogicInterface logic) {
             return null;
         }
 
@@ -113,7 +113,7 @@ public class PlayerTest {
             return null;
         }
 
-        public Location removeItem(LogicInterface logic) {
+        public Placement removeItem(LogicInterface logic) {
             return null;
         }
     }

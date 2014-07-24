@@ -4,7 +4,7 @@
  */
 package com.rezgame.ui;
 
-import com.rezgame.backend.Location;
+import com.rezgame.backend.Placement;
 import com.rezgame.backend.Move;
 import com.rezgame.backend.board.BoardInterface;
 import com.rezgame.backend.player.Player;
@@ -48,8 +48,8 @@ public class UITest {
         System.out.println("getItem");
         Player currentPlayer = null;
         UI instance = new UIImpl();
-        Location expResult = null;
-        Location result = instance.getItem(currentPlayer);
+        Placement expResult = null;
+        Placement result = instance.getNewPlacement(currentPlayer);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -91,8 +91,8 @@ public class UITest {
         System.out.println("removeItem");
         Player currentPlayer = null;
         UI instance = new UIImpl();
-        Location expResult = null;
-        Location result = instance.removeItem(currentPlayer);
+        Placement expResult = null;
+        Placement result = instance.getRemoveItem(currentPlayer);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -112,21 +112,21 @@ public class UITest {
     }
 
     /**
-     * Test of showBoard method, of class UI.
+     * Test of showState method, of class UI.
      */
     @Test
     public void testShowBoard() {
         System.out.println("showBoard");
         BoardInterface board = null;
         UI instance = new UIImpl();
-        instance.showBoard(board);
+        instance.showState(board);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     public class UIImpl extends UI {
 
-        public Location getItem(Player currentPlayer) {
+        public Placement getNewPlacement(Player currentPlayer) {
             return null;
         }
 
@@ -137,14 +137,14 @@ public class UITest {
         public void badMoveAlert(String msg) {
         }
 
-        public Location removeItem(Player currentPlayer) {
+        public Placement getRemoveItem(Player currentPlayer) {
             return null;
         }
 
         public void win(Player currentPlayer) {
         }
 
-        public void showBoard(BoardInterface board) {
+        public void showState(BoardInterface board) {
         }
     }
 }

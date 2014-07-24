@@ -1,9 +1,10 @@
 package com.rezgame.ui;
 
 import com.rezgame.backend.Color;
-import com.rezgame.backend.Location;
+import com.rezgame.backend.Placement;
 import com.rezgame.backend.Move;
 import com.rezgame.backend.board.BoardInterface;
+import com.rezgame.backend.logic.GameStateInterface;
 import com.rezgame.backend.logic.RezSessionController;
 import com.rezgame.backend.player.HumanPlayer;
 import com.rezgame.backend.player.Player;
@@ -18,43 +19,44 @@ import java.util.logging.Logger;
  * Copyright (c) <2013>, Amanj Sherwany and Nosheen Zaza
  * All rights reserved.
  * */
-public class ConsoleUI extends UI {
+public class ConsoleUI extends UI implements HumanPlayerInputUI{
 
     @Override
-    public Location getItem(Player currentPlayer) {
-        System.out.println(currentPlayer + ", please enter a location to put an item: ");
+    public Placement getNewPlacement(GameStateInterface state) {
+        System.out.println(state.getCurrentPlayer() + ", please enter a location to put an item: ");
         int x = readInt();
         int y = readInt();
-        return new Location(x, y);
+        return new Placement(x, y, state.getCurrentPlayer().getColor());
     }
 
     @Override
-    public Move moveItem(Player currentPlayer) {
-        System.out.println(currentPlayer + ", please enter the next move: ");
+    public Move getMove(GameStateInterface state) {
+        System.out.println(state.getCurrentPlayer() + ", please enter the next move: ");
         int x1 = readInt();
         int y1 = readInt();
         int x2 = readInt();
         int y2 = readInt();
-        return new Move(new Location(x1, y1), new Location(x2, y2));
+        return new Move(x1, y1,x2, y2, state.getCurrentPlayer().getColor());
     }
 
     @Override
-    public void badMoveAlert(String msg) {
+    public void showBadMoveAlert(GameStateInterface state, Move mv) {
+        String msg = "Player " + state.getCurrentPlayer() + " cannot perform move: " + mv;
         LOGGER.fine(msg);
         System.out.println(msg);
     }
 
     @Override
-    public Location removeItem(Player currentPlayer) {
-        System.out.println(currentPlayer + ", please enter the item to remove: ");
+    public Placement getRemoveItem(GameStateInterface state) {
+        System.out.println(state.getCurrentPlayer() + ", please enter the item to remove: ");
         int x = readInt();
         int y = readInt();
-        return new Location(x, y);
+        return new Placement(x, y, state.getCurrentPlayer().getColor());
     }
 
     @Override
-    public void win(Player currentPlayer) {
-        System.out.println("Complimenti " + currentPlayer + "! Lo vinci!");
+    public void showWin(GameStateInterface state) {
+        System.out.println("Complimenti " + state.getCurrentPlayer() + "! Lo vinci!");
         System.out.println("Do you want to play again? (yes|no): ");
         if(readLine().equalsIgnoreCase("yes")) {
             init();
@@ -64,11 +66,9 @@ public class ConsoleUI extends UI {
     }
 
     @Override
-    public void showBoard(BoardInterface board) {
-        System.out.println(board.prettyPrint());
+    public void showState(GameStateInterface state) {
+        System.out.println(state.prettyPrint());
     }
-
-
 
     public String readLine() {
         try {
@@ -107,4 +107,9 @@ public class ConsoleUI extends UI {
 
     private Logger LOGGER = Logger.getLogger("ConsoleUILogger");
     private BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+
+    @Override
+    public Color getStartingColor() {
+        throw new UnsupportedOperationException("Not supported yet getStartingColor()"); //To change body of generated methods, choose Tools | Templates.
+    }
 }

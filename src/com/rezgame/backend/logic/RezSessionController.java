@@ -1,7 +1,7 @@
 package com.rezgame.backend.logic;
 
 import com.rezgame.backend.Color;
-import com.rezgame.backend.Location;
+import com.rezgame.backend.Placement;
 import com.rezgame.backend.Move;
 import com.rezgame.backend.player.Player;
 import com.rezgame.ui.UI;
@@ -40,7 +40,7 @@ public class RezSessionController {
     public void start() {
         while(inGame) {
             if(logic.isInitMode()) {
-                Location loc = getCurrentPlayer().getItem(logic);
+                Placement loc = getCurrentPlayer().getItem(logic);
                 if(logic.canPutItem(loc)) {
                     logic.put(loc);
                     doRezCheck(loc);
@@ -55,20 +55,20 @@ public class RezSessionController {
                     doRezCheck(mv.getTo());
                     logic.changePlayer();
                 } else {
-                    ui.badMoveAlert("Player " + getCurrentPlayer() + " cannot perform move: " + mv);
+                    ui.badMoveAlert();
                 }
             }
-            ui.showBoard(logic.getBoard());
+            ui.showState(logic.getBoard());
         }
     }
 
-    private void doRezCheck(Location loc) {
+    private void doRezCheck(Placement loc) {
         if(logic.isRez(logic.currentPlayer(), loc)) {
-            ui.showBoard(logic.getBoard());
-            Location removedLoc = getCurrentPlayer().removeItem(logic);
+            ui.showState(logic.getBoard());
+            Placement removedLoc = getCurrentPlayer().removeItem(logic);
             while(! logic.canRemove(removedLoc)) {
                 ui.badMoveAlert("Player " + getCurrentPlayer() + " cannot remove an item in location " + removedLoc);
-                ui.showBoard(logic.getBoard());
+                ui.showState(logic.getBoard());
                 removedLoc = getCurrentPlayer().removeItem(logic);
             }
             logic.remove(removedLoc);

@@ -4,7 +4,7 @@
  */
 package com.rezgame.backend.board;
 
-import com.rezgame.backend.Location;
+import com.rezgame.backend.Placement;
 import com.rezgame.backend.Move;
 import java.util.List;
 import java.util.Map;
@@ -88,7 +88,7 @@ public class BoardInterfaceTest {
     @Test
     public void testGetPossibleMoves() {
         System.out.println("getPossibleMoves");
-        Location current = null;
+        Placement current = null;
         BoardInterface instance = new BoardInterfaceImpl();
         List expResult = null;
         List result = instance.getPossibleMoves(current);
@@ -169,27 +169,27 @@ public class BoardInterfaceTest {
 
     public class BoardInterfaceImpl implements BoardInterface {
 
-        public List<Location> getAllEmptyCells() {
+        public List<Placement> getAllEmptyCells() {
             return null;
         }
 
-        public List<Location> getAllBlackCells() {
+        public List<Placement> getAllBlackCells() {
             return null;
         }
 
-        public List<Location> getAllWhiteCells() {
+        public List<Placement> getAllWhiteCells() {
             return null;
         }
 
-        public List<Move> getPossibleMoves(Location current) {
+        public List<Move> getPossibleMoves(Placement current) {
             return null;
         }
 
-        public Map<Location, List<Move>> getAllPossibleMovesForWhite() {
+        public Map<Placement, List<Move>> getAllPossibleMovesForWhite() {
             return null;
         }
 
-        public Map<Location, List<Move>> getAllPossibleMovesForBlack() {
+        public Map<Placement, List<Move>> getAllPossibleMovesForBlack() {
             return null;
         }
 

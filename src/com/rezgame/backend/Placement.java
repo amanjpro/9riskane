@@ -1,14 +1,26 @@
-package com.rezgame.backend;
-
 /*
  * Copyright (c) <2013>, Amanj Sherwany and Nosheen Zaza
- * All rights reserved.
- * */
-public class Location {
+ * All rights reserved. 
+ */
 
-    public Location(int orbit, int loc) {
+package com.rezgame.backend;
+
+/**
+ * This class had to be created since Java does not support multiple value 
+ * return or tuples. It is used to get a placement move from a player.
+ * 
+ * @author Amanj Sherwany and Nosheen Zaza
+ */
+public class Placement {
+    
+    private final int loc;
+    private final int orbit;
+    private final Color color;
+
+    public Placement(int orbit, int loc, Color color) {
         this.loc = loc;
         this.orbit = orbit;
+        this.color = color;
     }
 
     public int getLoc() {
@@ -19,12 +31,16 @@ public class Location {
         return orbit;
     }
 
+    public Color getColor() {
+        return color;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Location location = (Location) o;
+        Placement location = (Placement) o;
 
         if (loc != location.loc) return false;
         if (orbit != location.orbit) return false;
@@ -46,6 +62,4 @@ public class Location {
                 ", loc = " + loc +
                 '}';
     }
-
-    private final int loc, orbit;
 }

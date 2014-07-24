@@ -5,7 +5,7 @@
 package com.rezgame.backend.logic;
 
 import com.rezgame.backend.Color;
-import com.rezgame.backend.Location;
+import com.rezgame.backend.Placement;
 import com.rezgame.backend.Move;
 import com.rezgame.backend.board.BoardInterface;
 import org.junit.After;
@@ -46,7 +46,7 @@ public class LogicInterfaceTest {
     @Test
     public void testCanPutItem() {
         System.out.println("canPutItem");
-        Location loc = null;
+        Placement loc = null;
         LogicInterface instance = new LogicInterfaceImpl();
         boolean expResult = false;
         boolean result = instance.canPutItem(loc);
@@ -61,7 +61,7 @@ public class LogicInterfaceTest {
     @Test
     public void testCanRemove() {
         System.out.println("canRemove");
-        Location loc = null;
+        Placement loc = null;
         LogicInterface instance = new LogicInterfaceImpl();
         boolean expResult = false;
         boolean result = instance.canRemove(loc);
@@ -77,7 +77,7 @@ public class LogicInterfaceTest {
     public void testIsRez() {
         System.out.println("isRez");
         Color color = null;
-        Location loc = null;
+        Placement loc = null;
         LogicInterface instance = new LogicInterfaceImpl();
         boolean expResult = false;
         boolean result = instance.isRez(color, loc);
@@ -145,15 +145,15 @@ public class LogicInterfaceTest {
 
     public class LogicInterfaceImpl implements LogicInterface {
 
-        public boolean canPutItem(Location loc) {
+        public boolean canPutItem(Placement loc) {
             return false;
         }
 
-        public boolean canRemove(Location loc) {
+        public boolean canRemove(Placement loc) {
             return false;
         }
 
-        public boolean isRez(Color color, Location loc) {
+        public boolean isRez(Color color, Placement loc) {
             return false;
         }
 
